@@ -25,6 +25,8 @@ cd generic-tests
 
 To run rpmdeplint for a build, you will need it's task ID and release specifiction. The test uses rpmdeplint container from https://pagure.io/fedora-ci/rpmdeplint available via quay.io repository: https://quay.io/repository/testing-farm/test-rpmdeplint
 
+Plan definition: link:rpmdeplint.fmf[rpmdeplint.fmf]
+
 [source,shell]
 ....
 tmt run -a provision --script "python3 /tmp/test_rpmdeplint.py -t 41970645 -r f30" 
