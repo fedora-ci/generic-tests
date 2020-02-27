@@ -5,25 +5,25 @@ This repository contains generic tests for Testing Farm defined in TMT/FMF forma
 To run these tests on your localhost:
 
 1. Install tmt
-+
-[source.shell
+
+[source,shell]
 ....
 # dnf -y install dnf-plugins-core
 nstall tmt-container# dnf -y copr enable psss/tmt
 # dnf -y install tmt-container
 ....
-+
+
 2. Clone this repository:
-+
+
 [source,shell]
 ....
 $ git clone https://gitlab.com/testing-farm/generic-tests
 $ cd generic-tests
 ....
-+
+
 == rpmdeplint
 To run rpmdeplint for a build, you will need it's task ID and release specifiction. The test uses rpmdeplint container from https://pagure.io/fedora-ci/rpmdeplint available via quay.io repository: https://quay.io/repository/testing-farm/test-rpmdeplint
-+
+
 [source,shell]
 ....
 $ tmt run -a provision --container-pull execute --script "python3 /tmp/test_rpmdeplint.py -t 41970645 -r f30" 
