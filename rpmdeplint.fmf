@@ -1,0 +1,7 @@
+summary:
+    Basic smoke test
+provision:
+    how: container
+    image: quay.io/testing-farm/test-rpmdeplint
+execute:
+    how: shell

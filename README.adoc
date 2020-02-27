@@ -1,0 +1,100 @@
+= Generic Testing Farm tests
+
+This repository contains generic tests for Testing Farm defined in TMT/FMF format.
+
+To run these tests on your localhost:
+
+1. Install tmt
++
+[source.shell
+....
+# dnf -y install dnf-plugins-core
+nstall tmt-container# dnf -y copr enable psss/tmt
+# dnf -y install tmt-container
+....
++
+2. Clone this repository:
++
+[source,shell]
+....
+$ git clone https://gitlab.com/testing-farm/generic-tests
+$ cd generic-tests
+....
++
+== rpmdeplint
+To run rpmdeplint for a build, you will need it's task ID and release specifiction. The test uses rpmdeplint container from https://pagure.io/fedora-ci/rpmdeplint available via quay.io repository: https://quay.io/repository/testing-farm/test-rpmdeplint
++
+[source,shell]
+....
+$ tmt run -a provision --container-pull execute --script "python3 /tmp/test_rpmdeplint.py -t 41970645 -r f30" 
+/var/tmp/tmt/run-192
+
+/rpmdeplint
+    discover
+        how: shell
+        tests: 1 test selected
+    provision
+        image: quay.io/testing-farm/test-rpmdeplint (force pull)
+    prepare
+    execute
+        how: shell
+        args: nohup /var/tmp/tmt/run-192/rpmdeplint/execute/run.sh -v /var/tmp/tmt/run-192/rpmdeplint shell /var/tmp/tmt/run-192/rpmdeplint/execute/stdout.log /var/tmp/tmt/run-192/rpmdeplint/execute/stderr.log
+    stdout.log: .D
+
+    stderr.log: 
+         /var/tmp/tmt/run-192/rpmdeplint $ main shell < discover/tests.yaml
+         > /script-00:
+         >     path: .
+         >     test: python3 /tmp/test_rpmdeplint.py -t 41970645 -r f30
+         > > shell execute: cd '/var/tmp/tmt/run-192/rpmdeplint/discover' && python3 /tmp/test_rpmdeplint.py -t 41970645 -r f30
+         > > out.log:
+        /usr/lib/python3.7/site-packages/urllib3/connectionpool.py:1004: InsecureRequestWarning: Unverified HTTPS request is being made. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#ssl-warnings
+          InsecureRequestWarning,
+        INFO: Running: 'rm -rf *.rpm'...
+        INFO: Dowloading packages for build: beaker-27.2-1.fc30...
+        INFO: Running: 'koji download-build --arch x86_64 --arch noarch --arch i686 --noprogress --debuginfo --task-id 41970645'...
+        Downloading: beaker-client-27.2-1.fc30.noarch.rpm
+        Downloading: beaker-common-27.2-1.fc30.noarch.rpm
+        INFO: Running: 'set -o pipefail; rpmdeplint check-sat --repo Fedora-30-repo,http://download.fedoraproject.org/pub/fedora/linux/releases/f30/Everything/x86_64/os --repo koji-f30-repo,https://kojipkgs.fedoraproject.org/repos/f30-build/latest/x86_64  --arch=x86_64 beaker-client-27.2-1.fc30.noarch.rpm beaker-common-27.2-1.fc30.noarch.rpm |& tee x86_64-check-sat.log'...
+        Failed to download repodata for Repo(repo_name='Fedora-30-repo', baseurl='http://download.fedoraproject.org/pub/fedora/linux/releases/f30/Everything/x86_64/os'): Cannot download repomd.xml: Cannot download repodata/repomd.xml: All mirrors were tried
+        INFO: Running: 'set -o pipefail; rpmdeplint check-repoclosure --repo Fedora-30-repo,http://download.fedoraproject.org/pub/fedora/linux/releases/f30/Everything/x86_64/os --repo koji-f30-repo,https://kojipkgs.fedoraproject.org/repos/f30-build/latest/x86_64  --arch=x86_64 beaker-client-27.2-1.fc30.noarch.rpm beaker-common-27.2-1.fc30.noarch.rpm |& tee x86_64-check-repoclosure.log'...
+        Failed to download repodata for Repo(repo_name='Fedora-30-repo', baseurl='http://download.fedoraproject.org/pub/fedora/linux/releases/f30/Everything/x86_64/os'): Cannot download repomd.xml: Cannot download repodata/repomd.xml: All mirrors were tried
+        INFO: Running: 'set -o pipefail; rpmdeplint check-conflicts --repo Fedora-30-repo,http://download.fedoraproject.org/pub/fedora/linux/releases/f30/Everything/x86_64/os --repo koji-f30-repo,https://kojipkgs.fedoraproject.org/repos/f30-build/latest/x86_64  --arch=x86_64 beaker-client-27.2-1.fc30.noarch.rpm beaker-common-27.2-1.fc30.noarch.rpm |& tee x86_64-check-conflicts.log'...
+        Failed to download repodata for Repo(repo_name='Fedora-30-repo', baseurl='http://download.fedoraproject.org/pub/fedora/linux/releases/f30/Everything/x86_64/os'): Cannot download repomd.xml: Cannot download repodata/repomd.xml: All mirrors were tried
+        INFO: Running: 'set -o pipefail; rpmdeplint check-upgrade --repo Fedora-30-repo,http://download.fedoraproject.org/pub/fedora/linux/releases/f30/Everything/x86_64/os --repo koji-f30-repo,https://kojipkgs.fedoraproject.org/repos/f30-build/latest/x86_64  --arch=x86_64 beaker-client-27.2-1.fc30.noarch.rpm beaker-common-27.2-1.fc30.noarch.rpm |& tee x86_64-check-upgrade.log'...
+        Failed to download repodata for Repo(repo_name='Fedora-30-repo', baseurl='http://download.fedoraproject.org/pub/fedora/linux/releases/f30/Everything/x86_64/os'): Cannot download repomd.xml: Cannot download repodata/repomd.xml: All mirrors were tried
+        INFO: Running: 'rm -rf *.rpm'...
+        INFO: Dowloading packages for build: beaker-27.2-1.fc30...
+        INFO: Running: 'koji download-build --arch aarch64 --arch noarch --noprogress --debuginfo --task-id 41970645'...
+        Downloading: beaker-client-27.2-1.fc30.noarch.rpm
+        Downloading: beaker-common-27.2-1.fc30.noarch.rpm
+        INFO: Running: 'set -o pipefail; rpmdeplint check-sat --repo Fedora-30-repo,http://download.fedoraproject.org/pub/fedora/linux/releases/f30/Everything/aarch64/os --repo koji-f30-repo,https://kojipkgs.fedoraproject.org/repos/f30-build/latest/aarch64  --arch=aarch64 beaker-client-27.2-1.fc30.noarch.rpm beaker-common-27.2-1.fc30.noarch.rpm |& tee aarch64-check-sat.log'...
+        Failed to download repodata for Repo(repo_name='Fedora-30-repo', baseurl='http://download.fedoraproject.org/pub/fedora/linux/releases/f30/Everything/aarch64/os'): Cannot download repomd.xml: Cannot download repodata/repomd.xml: All mirrors were tried
+        INFO: Running: 'set -o pipefail; rpmdeplint check-repoclosure --repo Fedora-30-repo,http://download.fedoraproject.org/pub/fedora/linux/releases/f30/Everything/aarch64/os --repo koji-f30-repo,https://kojipkgs.fedoraproject.org/repos/f30-build/latest/aarch64  --arch=aarch64 beaker-client-27.2-1.fc30.noarch.rpm beaker-common-27.2-1.fc30.noarch.rpm |& tee aarch64-check-repoclosure.log'...
+        Failed to download repodata for Repo(repo_name='Fedora-30-repo', baseurl='http://download.fedoraproject.org/pub/fedora/linux/releases/f30/Everything/aarch64/os'): Cannot download repomd.xml: Cannot download repodata/repomd.xml: All mirrors were tried
+        INFO: Running: 'set -o pipefail; rpmdeplint check-conflicts --repo Fedora-30-repo,http://download.fedoraproject.org/pub/fedora/linux/releases/f30/Everything/aarch64/os --repo koji-f30-repo,https://kojipkgs.fedoraproject.org/repos/f30-build/latest/aarch64  --arch=aarch64 beaker-client-27.2-1.fc30.noarch.rpm beaker-common-27.2-1.fc30.noarch.rpm |& tee aarch64-check-conflicts.log'...
+        Failed to download repodata for Repo(repo_name='Fedora-30-repo', baseurl='http://download.fedoraproject.org/pub/fedora/linux/releases/f30/Everything/aarch64/os'): Cannot download repomd.xml: Cannot download repodata/repomd.xml: All mirrors were tried
+        INFO: Running: 'set -o pipefail; rpmdeplint check-upgrade --repo Fedora-30-repo,http://download.fedoraproject.org/pub/fedora/linux/releases/f30/Everything/aarch64/os --repo koji-f30-repo,https://kojipkgs.fedoraproject.org/repos/f30-build/latest/aarch64  --arch=aarch64 beaker-client-27.2-1.fc30.noarch.rpm beaker-common-27.2-1.fc30.noarch.rpm |& tee aarch64-check-upgrade.log'...
+        Failed to download repodata for Repo(repo_name='Fedora-30-repo', baseurl='http://download.fedoraproject.org/pub/fedora/linux/releases/f30/Everything/aarch64/os'): Cannot download repomd.xml: Cannot download repodata/repomd.xml: All mirrors were tried
+        INFO: Running: 'rm -rf *.rpm'...
+        INFO: Dowloading packages for build: beaker-27.2-1.fc30...
+        INFO: Running: 'koji download-build --arch armhfp --arch noarch --noprogress --debuginfo --task-id 41970645'...
+        Downloading: beaker-client-27.2-1.fc30.noarch.rpm
+        Downloading: beaker-common-27.2-1.fc30.noarch.rpm
+        INFO: Running: 'set -o pipefail; rpmdeplint check-sat --repo Fedora-30-repo,http://download.fedoraproject.org/pub/fedora/linux/releases/f30/Everything/armhfp/os --repo koji-f30-repo,https://kojipkgs.fedoraproject.org/repos/f30-build/latest/armhfp  --arch=armhfp beaker-client-27.2-1.fc30.noarch.rpm beaker-common-27.2-1.fc30.noarch.rpm |& tee armhfp-check-sat.log'...
+        Failed to download repodata for Repo(repo_name='Fedora-30-repo', baseurl='http://download.fedoraproject.org/pub/fedora/linux/releases/f30/Everything/armhfp/os'): Cannot download repomd.xml: Cannot download repodata/repomd.xml: All mirrors were tried
+        INFO: Running: 'set -o pipefail; rpmdeplint check-repoclosure --repo Fedora-30-repo,http://download.fedoraproject.org/pub/fedora/linux/releases/f30/Everything/armhfp/os --repo koji-f30-repo,https://kojipkgs.fedoraproject.org/repos/f30-build/latest/armhfp  --arch=armhfp beaker-client-27.2-1.fc30.noarch.rpm beaker-common-27.2-1.fc30.noarch.rpm |& tee armhfp-check-repoclosure.log'...
+        Failed to download repodata for Repo(repo_name='Fedora-30-repo', baseurl='http://download.fedoraproject.org/pub/fedora/linux/releases/f30/Everything/armhfp/os'): Cannot download repomd.xml: Cannot download repodata/repomd.xml: All mirrors were tried
+        INFO: Running: 'set -o pipefail; rpmdeplint check-conflicts --repo Fedora-30-repo,http://download.fedoraproject.org/pub/fedora/linux/releases/f30/Everything/armhfp/os --repo koji-f30-repo,https://kojipkgs.fedoraproject.org/repos/f30-build/latest/armhfp  --arch=armhfp beaker-client-27.2-1.fc30.noarch.rpm beaker-common-27.2-1.fc30.noarch.rpm |& tee armhfp-check-conflicts.log'...
+        Failed to download repodata for Repo(repo_name='Fedora-30-repo', baseurl='http://download.fedoraproject.org/pub/fedora/linux/releases/f30/Everything/armhfp/os'): Cannot download repomd.xml: Cannot download repodata/repomd.xml: All mirrors were tried
+        INFO: Running: 'set -o pipefail; rpmdeplint check-upgrade --repo Fedora-30-repo,http://download.fedoraproject.org/pub/fedora/linux/releases/f30/Everything/armhfp/os --repo koji-f30-repo,https://kojipkgs.fedoraproject.org/repos/f30-build/latest/armhfp  --arch=armhfp beaker-client-27.2-1.fc30.noarch.rpm beaker-common-27.2-1.fc30.noarch.rpm |& tee armhfp-check-upgrade.log'...
+        Failed to download repodata for Repo(repo_name='Fedora-30-repo', baseurl='http://download.fedoraproject.org/pub/fedora/linux/releases/f30/Everything/armhfp/os'): Cannot download repomd.xml: Cannot download repodata/repomd.xml: All mirrors were tried
+        INFO: Running: 'rm -rf *.rpm'...
+         > > exitcode.log:
+        0
+        result: 1 test passed, 0 tests failed
+    report
+    finish
+....
+
+Result logs should be available in the run directory, e.g. `/var/tmp/tmt/run-192` in the above example.
