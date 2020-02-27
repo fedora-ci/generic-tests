@@ -29,7 +29,7 @@ Plan definition: link:rpmdeplint.fmf[rpmdeplint.fmf]
 
 [source,shell]
 ....
-tmt run -a provision --script "python3 /tmp/test_rpmdeplint.py -t 41970645 -r f30" 
+tmt run -a execute --script "python3 /tmp/test_rpmdeplint.py -t 41970645 -r f30" 
 /var/tmp/tmt/run-192
 
 /rpmdeplint
