@@ -8,17 +8,17 @@ To run these tests on your localhost:
 
 [source,shell]
 ....
-# dnf -y install dnf-plugins-core
-# dnf -y copr enable psss/tmt
-# dnf -y install tmt-container
+dnf -y install dnf-plugins-core
+dnf -y copr enable psss/tmt
+dnf -y install tmt-container
 ....
 
 - clone this repository:
 
 [source,shell]
 ....
-$ git clone https://gitlab.com/testing-farm/generic-tests
-$ cd generic-tests
+git clone https://gitlab.com/testing-farm/generic-tests
+cd generic-tests
 ....
 
 == rpmdeplint
@@ -27,7 +27,7 @@ To run rpmdeplint for a build, you will need it's task ID and release specificti
 
 [source,shell]
 ....
-$ tmt run -a provision --script "python3 /tmp/test_rpmdeplint.py -t 41970645 -r f30" 
+tmt run -a provision --script "python3 /tmp/test_rpmdeplint.py -t 41970645 -r f30" 
 /var/tmp/tmt/run-192
 
 /rpmdeplint
