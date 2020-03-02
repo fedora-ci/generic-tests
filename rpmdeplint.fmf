@@ -1,5 +1,5 @@
 summary:
-    Basic smoke test
+    TMT/FMF plan for running rpmdeplint generic test.
 provision:
     how: container
     image: quay.io/testing-farm/test-rpmdeplint

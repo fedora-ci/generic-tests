@@ -1,0 +1,26 @@
+summary:
+    TMT/FMF plan for running installability test.
+
+    Requires TASK_ID to be set in environment.
+provision:
+    how: libvirt
+discover:
+    how: shell
+    tests:
+        - name: install
+          test:  mtps-run-tests --critical --selinux=1 --test=install --repo=brew-$TASK_ID
+        - name: upgrade
+          test:  mtps-run-tests --critical --selinux=1 --test=upgrade --repo=brew-$TASK_ID
+        - name: downgrade
+          test:  mtps-run-tests --critical --selinux=1 --test=downgrade --repo=brew-$TASK_ID
+        - name: remove
+          test:  mtps-run-tests --critical --selinux=1 --test=remote --repo=brew-$TASK_ID
+prepare:
+    how: shell
+    script:
+        - rpm -ivh http://hdn.corp.redhat.com/rhel7-csb-stage/RPMS/noarch/redhat-internal-cert-install-0.1-15.el7.csb.noarch.rpm
+        - curl -Lo /etc/yum.repos.d/mini-tps.repo https://copr.devel.redhat.com/coprs/astepano/mini-tps/repo/rhel-8.dev/astepano-mini-tps.repo
+        - dnf install -y mini-tps
+        - mtps-prepare-system
+execute:
+    how: shell
