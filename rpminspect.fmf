@@ -1,0 +1,23 @@
+summary: TMT/FMF plan for running rpminspect.
+
+description: |
+    To run analysis pass a build NVR in the `BUILD` environmnet variable.
+    To run comparison, pass two NVRs, first is the `before` build, second one
+    is the `after build`.
+
+provision:
+    how: container
+    image: fedora
+
+prepare:
+    how: shell
+    script: |
+        if [ -z "$BUILD" ]; then
+            echo "No build specified"
+            exit 1
+        fi
+        dnf -y install rpminspect
+
+execute:
+    how: shell
+    script: rpminspect $ARGS $BUILD
