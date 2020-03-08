@@ -23,13 +23,13 @@ cd generic-tests
 
 == rpmdeplint
 
-To run rpmdeplint for a build, you will need it's task ID and release specifiction. The test uses rpmdeplint container from https://pagure.io/fedora-ci/rpmdeplint available via quay.io repository: https://quay.io/repository/testing-farm/test-rpmdeplint
+To run rpmdeplint for a build, you will need its task ID and release specifiction. The test uses rpmdeplint container from https://pagure.io/fedora-ci/rpmdeplint available via quay.io repository: https://quay.io/repository/testing-farm/test-rpmdeplint
 
 Plan definition: link:rpmdeplint.fmf[rpmdeplint.fmf]
 
 [source,shell]
 ....
-tmt run -a execute --script "python3 /tmp/test_rpmdeplint.py -t 41970645 -r f30" 
+tmt run -a execute --script "python3 /tmp/test_rpmdeplint.py -t 41970645 -r f30" plan --name /rpmdeplint
 /var/tmp/tmt/run-192
 
 /rpmdeplint
@@ -101,3 +101,30 @@ tmt run -a execute --script "python3 /tmp/test_rpmdeplint.py -t 41970645 -r f30"
 ....
 
 Result logs should be available in the run directory, e.g. `/var/tmp/tmt/run-192` in the above example.
+
+
+== installability
+
+To run installability for a build, you will need its task ID, release specification and URL to compose.
+
+Plan definition: link:installability.fmf[installability.fmf]
+
+NOTE: make sure this tmt PR is merged: https://github.com/psss/tmt/pull/148 (or use it for running)
+
+[source,shell]
+....
+tmt run -ae TASK_ID=27095830 -e RELEASE=rhel-8.2.0 -d provision -h libvirt.testcloud -i URL_TO_COMPOSE plan --name /installability
+....
+
+== rpminspect
+
+To run for a build for a build, you will need its task ID. The test uses fedora container.
+
+Note that there is currently a bug in rpminspect: https://github.com/rpminspect/rpminspect/issues/109
+
+Plan definition: link:rpminspect[rpminspect.fmf]
+
+[source,shell]
+....
+tmt run -ae BUILD=perl-Data-Validate-IP-0.27-11.el8 provision -h podman -i fedora plan --name /rpminspect
+....
