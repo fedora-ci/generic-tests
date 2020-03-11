@@ -10,7 +10,7 @@ To run these tests on your localhost:
 ....
 dnf -y install dnf-plugins-core
 dnf -y copr enable psss/tmt
-dnf -y install tmt-container
+dnf -y install tmt-container tmt-testcloud
 ....
 
 - clone this repository:
@@ -119,8 +119,6 @@ tmt run -ae TASK_ID=27095830 -e RELEASE=rhel-8.2.0 -d provision -h libvirt.testc
 == rpminspect
 
 To run for a build for a build, you will need its task ID. The test uses fedora container.
-
-Note that there is currently a bug in rpminspect: https://github.com/rpminspect/rpminspect/issues/109
 
 Plan definition: link:rpminspect[rpminspect.fmf]
 
