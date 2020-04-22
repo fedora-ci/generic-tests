@@ -16,8 +16,11 @@ prepare:
             echo "No build specified"
             exit 1
         fi
+        dnf -y install dnf-plugins-core
+        dnf -y copr enable dcantrell/rpminspect
         dnf -y install rpminspect
 
 execute:
     how: shell
-    script: rpminspect $ARGS $BUILD
+    script:
+        - rpminspect $ARGS $BUILD
